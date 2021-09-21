@@ -1,5 +1,6 @@
 import { List, ListItem } from "./ContactsList.styled";
 import { Button } from '../Buttons/Buttons.styled';
+import PropTypes from 'prop-types';
 
 
 export const ContactsList = ({ contacts, deleteId }) => {
@@ -21,3 +22,15 @@ export const ContactsList = ({ contacts, deleteId }) => {
         </div>
     );
 };
+
+ContactsList.propTypes = {
+    deleteId: PropTypes.func,
+    contacts: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string,
+            name: PropTypes.string,
+            number: PropTypes.string,
+        })
+    )
+    
+}
