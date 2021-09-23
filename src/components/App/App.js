@@ -4,6 +4,7 @@ import { PrimaryTitle, SecondaryTitle } from "./App.styled.jsx";
 import { ContactsForm } from "../ContactsForm/ContactsForm.jsx";
 import { ContactsList } from "../ContactsList/ContactsList.jsx";
 import { Filter } from "../Filter/Filter.jsx";
+import { Notify } from "notiflix";
 
 export class App extends Component {
   state = {
@@ -42,17 +43,18 @@ export class App extends Component {
       number,
     };
 
-    contacts.some(
-      (contact) =>
-        contact.name.toLowerCase === newContact.name.toLowerCase ||
-        contact.number === newContact.number
-    )
-      ? alert(
-          `Сontact with name ${newContact.name} or number ${newContact.number} is already exists`
-        )
-      : this.setState({
-          contacts: [newContact, ...contacts],
-        });
+    const savedContacts = contacts.find(
+      (contact) => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+
+    if (savedContacts) {
+      Notify.warning(name + " is already in contacts.");
+      return;
+    }
+
+    this.setState({
+      contacts: [newContact, ...contacts],
+    });
   };
 
   showContacts = () => {
